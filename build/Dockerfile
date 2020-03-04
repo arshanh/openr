@@ -338,3 +338,26 @@ RUN CXXFLAGS="$CXXFLAGS -fPIC -isystem "'/home/install'"/include" CFLAGS="$CFLAG
 RUN PYTHONPATH="$PYTHONPATH:"'/home/install'/lib/python2.7/site-packages make -j '16'
 RUN make install
 
+#####################################################################################################################################3
+
+FROM ubuntu:18.04
+COPY --from=0 /usr/local/lib /usr/local/lib
+COPY --from=0 /usr/local/share /usr/local/share
+COPY --from=0 /usr/local/include /usr/local/include
+COPY --from=0 /usr/local/sbin /usr/local/sbin
+COPY --from=0 /usr/local/bin /usr/local/bin
+
+COPY --from=0 /usr/lib /usr/lib
+COPY --from=0 /lib /lib
+COPY --from=0 /usr/include /usr/include
+
+COPY --from=0 /usr/sbin /usr/sbin
+COPY --from=0 /usr/bin /usr/bin
+
+COPY --from=0 '/home/install' '/home/install'
+
+RUN mkdir /var/log/openr && apt-get update && apt-get install -y iproute2 vim
+COPY run_openr_xr.sh /usr/sbin/run_openr_xr.sh
+COPY run_openr_linux.sh /usr/sbin/run_openr_linux.sh
+COPY start_openr.sh /usr/bin/start_openr
+
