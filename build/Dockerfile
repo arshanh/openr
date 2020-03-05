@@ -4,15 +4,14 @@ FROM ubuntu:18.04
 SHELL ["/bin/bash", "-c"]
 ### Install packages for Debian-based OS ###
 
+USER root
+
 RUN apt-get update && apt-get install -yq autoconf-archive bison build-essential cmake curl flex git gperf joe libboost-all-dev libcap-dev libdouble-conversion-dev libevent-dev libgflags-dev libgoogle-glog-dev libkrb5-dev libpcre3-dev libpthread-stubs0-dev libnuma-dev libsasl2-dev libsnappy-dev libsqlite3-dev libssl-dev libtool netcat-openbsd pkg-config sudo unzip wget python3-venv
 RUN apt-get install -yq gcc-'7' g++-'7'
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-'7' 40 --slave /usr/bin/g++ g++ /usr/bin/g++-'7'
 RUN update-alternatives --config gcc
 
-USER 'root'
-USER root
 RUN mkdir -p '/home/install' && chown 'root' '/home/install'
-USER 'root'
 WORKDIR '/home/install'
 
 ### Diagnostics ###
@@ -25,14 +24,10 @@ RUN cmake --version || echo cmake not installed
 
 # Check out fmtlib/fmt, workdir build ###
 
-USER root
 RUN mkdir -p '/home' && chown 'root' '/home'
-USER 'root'
 WORKDIR '/home'
 RUN git clone  https://github.com/'fmtlib/fmt'
-USER root
 RUN mkdir -p '/home'/'fmt'/'build' && chown 'root' '/home'/'fmt'/'build'
-USER 'root'
 WORKDIR '/home'/'fmt'/'build'
 RUN git checkout '5.3.0'
 
@@ -44,14 +39,10 @@ RUN make install VERBOSE=1
 
 ### Check out facebook/folly, workdir _build ###
 
-USER root
 RUN mkdir -p '/home' && chown 'root' '/home'
-USER 'root'
 WORKDIR '/home'
 RUN git clone  https://github.com/'facebook/folly'
-USER root
 RUN mkdir -p '/home'/'folly'/'_build' && chown 'root' '/home'/'folly'/'_build'
-USER 'root'
 WORKDIR '/home'/'folly'/'_build'
 RUN git checkout '134472ee45780ca2afa6f64cb7baac318c60a7c3'
 
@@ -63,14 +54,10 @@ RUN make install VERBOSE=1
 
 ### Check out jedisct1/libsodium, workdir . ###
 
-USER root
 RUN mkdir -p '/home' && chown 'root' '/home'
-USER 'root'
 WORKDIR '/home'
 RUN git clone  https://github.com/'jedisct1/libsodium'
-USER root
 RUN mkdir -p '/home'/'libsodium'/'.' && chown 'root' '/home'/'libsodium'/'.'
-USER 'root'
 WORKDIR '/home'/'libsodium'/'.'
 RUN git checkout 'stable'
 
@@ -83,14 +70,10 @@ RUN make install VERBOSE=1
 
 ### Check out facebookincubator/fizz, workdir fizz/build ###
 
-USER root
 RUN mkdir -p '/home' && chown 'root' '/home'
-USER 'root'
 WORKDIR '/home'
 RUN git clone  https://github.com/'facebookincubator/fizz'
-USER root
 RUN mkdir -p '/home'/'fizz'/'fizz/build' && chown 'root' '/home'/'fizz'/'fizz/build'
-USER 'root'
 WORKDIR '/home'/'fizz'/'fizz/build'
 
 ### Build and install fizz/fizz/build ###
@@ -101,14 +84,10 @@ RUN make install VERBOSE=1
 
 ### Check out rsocket/rsocket-cpp, workdir rsocket ###
 
-USER root
 RUN mkdir -p '/home' && chown 'root' '/home'
-USER 'root'
 WORKDIR '/home'
 RUN git clone  https://github.com/'rsocket/rsocket-cpp'
-USER root
 RUN mkdir -p '/home'/'rsocket-cpp'/'rsocket' && chown 'root' '/home'/'rsocket-cpp'/'rsocket'
-USER 'root'
 WORKDIR '/home'/'rsocket-cpp'/'rsocket'
 
 ### Build and install rsocket-cpp/rsocket ###
@@ -119,14 +98,10 @@ RUN make install VERBOSE=1
 
 ### Check out facebook/wangle, workdir wangle/build ###
 
-USER root
 RUN mkdir -p '/home' && chown 'root' '/home'
-USER 'root'
 WORKDIR '/home'
 RUN git clone  https://github.com/'facebook/wangle'
-USER root
 RUN mkdir -p '/home'/'wangle'/'wangle/build' && chown 'root' '/home'/'wangle'/'wangle/build'
-USER 'root'
 WORKDIR '/home'/'wangle'/'wangle/build'
 RUN git checkout 'eab7a0e4e307de4910c75917d744e5a6002d694f'
 
@@ -138,14 +113,10 @@ RUN make install VERBOSE=1
 
 ### Check out facebook/zstd, workdir . ###
 
-USER root
 RUN mkdir -p '/home' && chown 'root' '/home'
-USER 'root'
 WORKDIR '/home'
 RUN git clone  https://github.com/'facebook/zstd'
-USER root
 RUN mkdir -p '/home'/'zstd'/'.' && chown 'root' '/home'/'zstd'/'.'
-USER 'root'
 WORKDIR '/home'/'zstd'/'.'
 RUN git checkout $(git describe --abbrev=0 --tags origin/master)
 
@@ -156,14 +127,10 @@ RUN make install VERBOSE=1 'PREFIX'='/home/install'
 
 ### Check out facebook/fbthrift, workdir thrift ###
 
-USER root
 RUN mkdir -p '/home' && chown 'root' '/home'
-USER 'root'
 WORKDIR '/home'
 RUN git clone  https://github.com/'facebook/fbthrift'
-USER root
 RUN mkdir -p '/home'/'fbthrift'/'thrift' && chown 'root' '/home'/'fbthrift'/'thrift'
-USER 'root'
 WORKDIR '/home'/'fbthrift'/'thrift'
 RUN git checkout 'ea8bae1f0f2a57618e8316bcdb2ecc4d34d9f538'
 
@@ -175,14 +142,10 @@ RUN make install VERBOSE=1
 
 ### Check out google/googletest, workdir build ###
 
-USER root
 RUN mkdir -p '/home' && chown 'root' '/home'
-USER 'root'
 WORKDIR '/home'
 RUN git clone  https://github.com/'google/googletest'
-USER root
 RUN mkdir -p '/home'/'googletest'/'build' && chown 'root' '/home'/'googletest'/'build'
-USER 'root'
 WORKDIR '/home'/'googletest'/'build'
 RUN git checkout 'release-1.8.1'
 
@@ -194,14 +157,10 @@ RUN make install VERBOSE=1
 
 ### Check out hyperic/sigar, workdir . ###
 
-USER root
 RUN mkdir -p '/home' && chown 'root' '/home'
-USER 'root'
 WORKDIR '/home'
 RUN git clone  https://github.com/'hyperic/sigar'
-USER root
 RUN mkdir -p '/home'/'sigar'/'.' && chown 'root' '/home'/'sigar'/'.'
-USER 'root'
 WORKDIR '/home'/'sigar'/'.'
 
 ### Build and install sigar ###
@@ -212,13 +171,10 @@ RUN make -j '16' VERBOSE=1
 RUN make install VERBOSE=1 
 
 # XXX Begin Added code
-USER root
 RUN mkdir -p '/home' && chown 'root' '/home'
 RUN apt-get -yq remove libboost-all-dev 
-USER 'root'
 WORKDIR '/home'
 RUN git clone https://github.com/arshanh/openr openr-xr
-USER root
 RUN mkdir -p '/home'/'openr-xr'/'build' && chown 'root' '/home'/'openr-xr'/'build'
 WORKDIR '/home'/'openr-xr'/'build'
 
@@ -229,14 +185,10 @@ RUN python3 fbcode_builder/getdeps.py build --no-tests boost --install-dir '/usr
 
 ### Check out zeromq/libzmq, workdir . ###
 
-USER root
 RUN mkdir -p '/home' && chown 'root' '/home'
-USER 'root'
 WORKDIR '/home'
 RUN git clone  https://github.com/'zeromq/libzmq'
-USER root
 RUN mkdir -p '/home'/'libzmq'/'.' && chown 'root' '/home'/'libzmq'/'.'
-USER 'root'
 WORKDIR '/home'/'libzmq'/'.'
 RUN git checkout 'v4.2.2'
 
@@ -249,14 +201,10 @@ RUN make install VERBOSE=1
 
 ### Check out facebook/fbzmq, workdir _build ###
 
-USER root
 RUN mkdir -p '/home' && chown 'root' '/home'
-USER 'root'
 WORKDIR '/home'
 RUN git clone  https://github.com/'facebook/fbzmq'
-USER root
 RUN mkdir -p '/home'/'fbzmq'/'_build' && chown 'root' '/home'/'fbzmq'/'_build'
-USER 'root'
 WORKDIR '/home'/'fbzmq'/'_build'
 RUN git checkout '0ffb23f1fd3bbe62b2a271395da25e1ef5ee754f'
 
@@ -268,14 +216,10 @@ RUN make install
 
 ### Check out google/re2, workdir build ###
 
-USER root
 RUN mkdir -p '/home' && chown 'root' '/home'
-USER 'root'
 WORKDIR '/home'
 RUN git clone  https://github.com/'google/re2'
-USER root
 RUN mkdir -p '/home'/'re2'/'build' && chown 'root' '/home'/'re2'/'build'
-USER 'root'
 WORKDIR '/home'/'re2'/'build'
 
 ### Build and install google/re2 ###
@@ -286,14 +230,10 @@ RUN make install VERBOSE=1
 
 ### Check out thom311/libnl, workdir . ###
 
-USER root
 RUN mkdir -p '/home' && chown 'root' '/home'
-USER 'root'
 WORKDIR '/home'
 RUN git clone  https://github.com/'thom311/libnl'
-USER root
 RUN mkdir -p '/home'/'libnl'/'.' && chown 'root' '/home'/'libnl'/'.'
-USER 'root'
 WORKDIR '/home'/'libnl'/'.'
 RUN git checkout 'libnl3_2_25'
 
@@ -307,7 +247,6 @@ RUN make -j '16' VERBOSE=1
 RUN make install VERBOSE=1 
 
 # Check out iosxrsl
-USER root
 RUN mkdir -p '/home' && chown 'root' '/home'
 WORKDIR '/home'
 RUN git clone https://wwwin-github.cisco.com/ios-xr/service-layer-objmodel.git -b add-jobs-to-make && \
@@ -322,14 +261,10 @@ RUN git clone https://wwwin-github.cisco.com/ios-xr/service-layer-objmodel.git -
 ### Check out facebook/openr, workdir build ###
 
 # Comment the following as we have already done this above
-# USER root
-# RUN mkdir -p '/home' && chown 'root' '/home'
-# USER 'root'
-# WORKDIR '/home'
+# # RUN mkdir -p '/home' && chown 'root' '/home'
+# # WORKDIR '/home'
 # RUN git clone  https://github.com/'facebook/openr'
-# USER root
-# RUN mkdir -p '/home'/'openr'/'build' && chown 'root' '/home'/'openr'/'build'
-USER 'root'
+# # RUN mkdir -p '/home'/'openr'/'build' && chown 'root' '/home'/'openr'/'build'
 WORKDIR '/home'/'openr-xr'/'build'
 
 ### Build and install openr/build ###
@@ -337,6 +272,10 @@ WORKDIR '/home'/'openr-xr'/'build'
 RUN CXXFLAGS="$CXXFLAGS -fPIC -isystem "'/home/install'"/include" CFLAGS="$CFLAGS -fPIC -isystem "'/home/install'"/include" cmake -D'CMAKE_INSTALL_PREFIX'='/home/install' -D'BUILD_SHARED_LIBS'='ON' -D'ADD_ROOT_TESTS'='OFF' '..'
 RUN PYTHONPATH="$PYTHONPATH:"'/home/install'/lib/python2.7/site-packages make -j '16'
 RUN make install
+
+# The above installs to /home/install, so move it to usr/
+# I tried generating the docker file to install to /usr, but it doesn't work
+# seems like it is meant to be installed then copied over if necessary
 
 RUN cp -r /home/install/bin/* /usr/bin/
 RUN cp -r /home/install/etc/* /usr/etc/
@@ -347,9 +286,10 @@ RUN cp -r /home/install/share/* /usr/share/
 
 #######################################################################################################################
 
+# Create a new much smaller image that only contains what is necessary
+
 FROM ubuntu:18.04
 
-USER 'root'
 WORKDIR '/home'/'openr-xr'/'build'
 
 COPY --from=0 /usr/local/lib /usr/local/lib
