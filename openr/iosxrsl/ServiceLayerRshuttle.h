@@ -13,7 +13,7 @@
 #include <fbzmq/zmq/Zmq.h>
 #include <folly/IPAddress.h>
 #include <folly/futures/Future.h>
-#include <openr/common/AddressUtil.h>
+#include <openr/common/NetworkUtil.h>
 #include <openr/common/Util.h>
 
 

@@ -17,7 +17,7 @@
 #include <folly/gen/Base.h>
 #include <folly/gen/Core.h>
 
-#include <openr/common/AddressUtil.h>
+#include <openr/common/NetworkUtil.h>
 
 using apache::thrift::FRAGILE;
 
